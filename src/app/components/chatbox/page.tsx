@@ -3,7 +3,9 @@
 import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const socket = io(process.env.CLIENT_URL as string, {
+  transports: ["websocket"], // optional, improves reliability
+});
 
 type Message = {
   sender: string;
@@ -100,11 +102,10 @@ export default function ChatBox({ recipient }: { recipient: string }) {
               className={`flex ${m.sender === username ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`px-4 py-2 max-w-xs rounded-2xl ${
-                  m.sender === username
+                className={`px-4 py-2 max-w-xs rounded-2xl ${m.sender === username
                     ? "bg-[#25D366] text-white rounded-br-none"
                     : "bg-white text-gray-800 rounded-bl-none border border-gray-300"
-                }`}
+                  }`}
               >
                 <p>{m.text}</p>
                 <span className="text-xs text-gray-200 block mt-1 text-right">

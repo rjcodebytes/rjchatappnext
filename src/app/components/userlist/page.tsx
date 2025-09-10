@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const socket = io(process.env.CLIENT_URL as string, {
+  transports: ["websocket"], // optional, improves reliability
+});
+
 
 type User = {
   username: string;
