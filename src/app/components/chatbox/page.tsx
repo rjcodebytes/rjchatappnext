@@ -3,8 +3,13 @@
 import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 
-const socket = io(process.env.CLIENT_URL as string, {
-  transports: ["websocket"], // optional, improves reliability
+const SOCKET_URL = process.env.CLIENT_URL as string;
+
+const socket = io(SOCKET_URL, {
+  transports: ["websocket", "polling"],
+  path: "/socket.io",
+  autoConnect: true,
+  withCredentials: true,
 });
 
 type Message = {
